@@ -5,26 +5,35 @@ const nanoid = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 12);
 
 // Repository will be used to interact with the database
 class Repository {
-  // Get user by email
-  async getUser(email) {
-    const result = await DB.query({
-      text: "SELECT * FROM users WHERE email = $1",
-      values: [email],
-    });
-    return result.rows[0];
-  }
+  
+    async createInterview(userid, jobdescription, interviewtype, difficulty, jobfield, status) {
+        const interviewid = nanoid();  // Generates a unique ID for the interview
+      
+        const result = await DB.query({
+          text: `
+            INSERT INTO interviews (userid, interviewid, jobdescription, interviewtype, difficulty, jobfield, status) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7) 
+            RETURNING *`,
+          values: [userid, interviewid, jobdescription, interviewtype, difficulty, jobfield, status],
+        });
+      
+        return result.rows[0];  // Return the inserted row
+      }
 
-  // Create a new user
-  async createUser(email, password, name) {
-    const id = nanoid();
 
-    const result = await DB.query({
-      text: "INSERT INTO users (public_id, email, password, name) VALUES ($1, $2, $3, $4) RETURNING *",
-      values: [id, email, password, name],
-    });
-
-    return result.rows[0];
-  }
+      async checkInterviewOfStatus(userid, status) {
+        const result = await DB.query({
+          text: `
+            SELECT * 
+            FROM interviews 
+            WHERE userid = $1 AND status = $2`,
+          values: [userid, status],
+        });
+      
+        return result.rows;  // Return all matching rows
+      }
+      
+  
 }
 
 module.exports = Repository;

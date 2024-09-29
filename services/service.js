@@ -14,64 +14,43 @@ class Service {
     this.repository = new Repository();
   }
 
-  // Login method will be used to authenticate the user
-  async login(email, password) {
-    const user = await this.repository.getUser(email);
+  async createinterview(userid, jobdescription, interviewtype, difficulty, jobfield, status) {
 
-    if (!user) throw new NotFoundError("User not found");
+    try {
 
-    if (!(await bcrypt.compare(password, user.password)))
-      throw new BadRequestError("Invalid password");
+      const existingscheduledinterview = await this.repository.checkInterviewOfStatus(userid,"scheduled");
 
-    EventService.publish(TEST_QUEUE, {
-      type: EVENT_TYPES.USER_LOGGED_IN,
-      data: {
-        userId: user.public_id,
-        email: user.email,
-      },
-    });
+      const existingrunninginterview = await this.repository.checkInterviewOfStatus(userid,"running");
 
-    return {
-      message: "Login successful",
-      user: {
-        id: user.public_id,
-        email: user.email,
-        name: user.name,
-        created_at: user.created_at,
-      },
-    };
+      if(existingscheduledinterview||existingrunninginterview){
+        throw new BadRequestError("Interview already exists");
+      }
+
+      const interview = await this.repository.createInterview(userid, jobdescription, interviewtype, difficulty, jobfield, status);
+
+      EventService.publish(EVENT_TYPES.INTERVIEW_CREATED, {
+        id: interview.interviewid,
+        userid: interview.userid,
+        jobdescription: interview.jobdescription,
+        interviewtype: interview.interviewtype,
+        difficulty: interview.difficulty,
+        jobfield: interview.jobfield,
+        status: interview.status
+      });
+      
+      return{
+        message: "Interview created successfully",
+        interview
+      }
+    } catch (error) {
+      return {
+        message: error.message,
+      };
+    }
+    
   }
 
-  // Register method will be used to create a new user
-  async register(email, password, name) {
-    const user = await this.repository.getUser(email);
-    if (user) throw new BadRequestError("User already exists");
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await this.repository.createUser(
-      email,
-      hashedPassword,
-      name
-    );
-
-    EventService.publish(TEST_QUEUE, {
-      type: EVENT_TYPES.USER_CREATED,
-      data: {
-        userId: newUser.public_id,
-        email: newUser.email,
-      },
-    });
-
-    return {
-      message: "User created successfully",
-      user: {
-        id: newUser.public_id,
-        email: newUser.email,
-        name: newUser.name,
-        created_at: newUser.created_at,
-      },
-    };
-  }
+  
 
   async rpc_test() {
     const data = await RPCService.request(TEST_RPC, {
