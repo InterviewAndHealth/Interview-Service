@@ -16,7 +16,21 @@ class Service {
 
   async createinterview(userid, jobdescription, interviewtype, difficulty, jobfield, status) {
 
+    // console.log(userid);
+
     try {
+
+      const response = await RPCService.request('USERS_RPC', {
+        type: 'CHECK_USER_EXISTENCE',
+        data:{
+          userid
+        },
+      });
+      console.log(response);
+
+      if(!response.data){
+        throw new BadRequestError("User does not exist");
+      }
 
       const existingscheduledinterview = await this.repository.checkInterviewOfStatus(userid,"scheduled");
 
@@ -28,15 +42,15 @@ class Service {
 
       const interview = await this.repository.createInterview(userid, jobdescription, interviewtype, difficulty, jobfield, status);
 
-      EventService.publish(EVENT_TYPES.INTERVIEW_CREATED, {
-        id: interview.interviewid,
-        userid: interview.userid,
-        jobdescription: interview.jobdescription,
-        interviewtype: interview.interviewtype,
-        difficulty: interview.difficulty,
-        jobfield: interview.jobfield,
-        status: interview.status
-      });
+      // EventService.publish(EVENT_TYPES.INTERVIEW_CREATED, {
+      //   id: interview.interviewid,
+      //   userid: interview.userid,
+      //   jobdescription: interview.jobdescription,
+      //   interviewtype: interview.interviewtype,
+      //   difficulty: interview.difficulty,
+      //   jobfield: interview.jobfield,
+      //   status: interview.status
+      // });
       
       return{
         message: "Interview created successfully",

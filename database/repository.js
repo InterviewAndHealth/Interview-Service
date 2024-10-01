@@ -30,7 +30,7 @@ class Repository {
           values: [userid, status],
         });
       
-        return result.rows;  // Return all matching rows
+        return result.rows[0];  // Return all matching rows
       }
       
   

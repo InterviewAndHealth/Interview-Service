@@ -1,6 +1,8 @@
 const express = require("express");
 const { Service } = require("../services");
 const { BadRequestError } = require("../utils/errors");
+const authMiddleware = require('../middlewares/auth');
+
 
 const router = express.Router();
 const service = new Service();
@@ -19,11 +21,11 @@ router.get("/", (req, res) => {
 //   return res.header("token", "1234").json(data);
 // });
 
-router.post("/createinterview", async (req, res) => {
-  const { userid, jobdescription, interviewtype, difficulty, jobfield, status } = req.body;
+router.post("/createinterview",authMiddleware, async (req, res) => {
+  const {jobdescription, interviewtype, difficulty, jobfield, status } = req.body;
 
   
-
+  const userid=req.userId;
   const data = await service.createinterview(userid, jobdescription, interviewtype, difficulty, jobfield, status);
   return res.json(data);
 });
@@ -36,3 +38,6 @@ router.get("/rpc", async (req, res) => {
 });
 
 module.exports = router;
+
+
+

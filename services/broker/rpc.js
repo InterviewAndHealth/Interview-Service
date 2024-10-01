@@ -53,6 +53,7 @@ class RPCService {
       });
     } catch (err) {
       console.log("Failed to request data");
+      console.log(err);
     }
   }
 

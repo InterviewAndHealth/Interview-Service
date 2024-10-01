@@ -24,13 +24,13 @@ END $$;
 
 CREATE TABLE IF NOT EXISTS interviews (
     userid VARCHAR(255),                       
-    interviewid UUID PRIMARY KEY DEFAULT gen_random_uuid(),  
+    interviewid VARCHAR(255) PRIMARY KEY,  
     jobdescription TEXT,                       
     interviewtype interview_type,              
     difficulty difficulty_level,               
     jobfield VARCHAR(255),                     
-    status interview_status
+    status interview_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,                    
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                   
 );
 
