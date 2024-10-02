@@ -26,8 +26,8 @@ class Service {
           userid
         },
       });
-      console.log(response);
-
+      // console.log(response);
+    
       if(!response.data){
         throw new BadRequestError("User does not exist");
       }
