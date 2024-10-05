@@ -40,14 +40,14 @@ class DB {
   }
 
   static async createTable() {
-    const pathToSQL = path.join(__dirname, "queries", "createInterview.sql");
+    const pathToSQL = path.join(__dirname, "queries", "CreateInterview.sql");
     const rawQuery = fs.readFileSync(pathToSQL).toString();
     const query = rawQuery.replace(/\n/g, "").replace(/\s+/g, " ");
     return this.#pool.query(query);
   }
 
   static async dropTable() {
-    const pathToSQL = path.join(__dirname, "queries", "dropInterview.sql");
+    const pathToSQL = path.join(__dirname, "queries", "DropInterview.sql");
     const rawQuery = fs.readFileSync(pathToSQL).toString();
     const query = rawQuery.replace(/\n/g, "").replace(/\s+/g, " ");
     return this.#pool.query(query);
