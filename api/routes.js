@@ -21,7 +21,7 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
   
   const userid=req.userId;
   const data = await service.createinterview(userid, jobdescription, interviewtype, difficulty, jobfield, status);
-  return res.json(data);
+  return res.status(200).json(data);
 });
 
 
