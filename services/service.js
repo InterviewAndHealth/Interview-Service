@@ -35,6 +35,19 @@ class Service {
     
   }
 
+  async getinterview(userid) {
+    const result = await this.repository.getInterviewByUserId(userid);
+
+    if (result.length === 0) {
+      throw new NotFoundError("No interview found");
+    }
+
+    return {
+      message: "Interview found",
+      interview: result
+    }
+  }
+
 }
 
 module.exports = Service;

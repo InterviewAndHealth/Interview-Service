@@ -13,6 +13,14 @@ class Repository {
         });
         return result.rows[0];
     }
+
+    async getInterviewByUserId(userid) {
+        const result = await DB.query({
+          text: "SELECT * FROM interviews WHERE userid = $1",
+          values: [userid],
+        });
+        return result.rows;
+    }
   
     async createInterview(userid, jobdescription, interviewtype, difficulty, jobfield, status) {
         const interviewid = nanoid();  // Generates a unique ID for the interview

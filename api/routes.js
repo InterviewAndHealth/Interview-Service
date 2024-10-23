@@ -25,6 +25,12 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
 });
 
 
+router.get("/getinterview", authMiddleware, async (req, res) => {
+  const userid=req.userId;
+  const data = await service.getinterview(userid);
+  return res.status(200).json(data);
+});
+
 // const { EventService, RPCService } = require("../services/broker");
 // router.get("/rpctest",authMiddleware, async (req, res) => {
 //   // const {jobdescription, interviewtype, difficulty, jobfield, status } = req.body;
