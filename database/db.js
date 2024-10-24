@@ -1,5 +1,5 @@
 const { Pool } = require("pg");
-const { PGUSER, PGPASSWORD, PGHOST, PGPORT, PGDATABASE } = require("../config");
+const { DATABASE_NAME, DATABASE_URL } = require("../config");
 const path = require("path");
 const fs = require("fs");
 
