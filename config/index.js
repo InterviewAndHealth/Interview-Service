@@ -1,13 +1,6 @@
 const dotEnv = require("dotenv");
 const { EVENT_TYPES, RPC_TYPES } = require("./types");
 
-// if (process.env.NODE_ENV !== "production") {
-//   const configFile = `./.env.${process.env.NODE_ENV}`;
-//   dotEnv.config({ path: configFile });
-// } else {
-//   dotEnv.config();
-// }
-
 dotEnv.config();
 
 module.exports = {
@@ -20,12 +13,10 @@ module.exports = {
   SERVICE_NAME: process.env.SERVICE_NAME,
   SERVICE_QUEUE: process.env.SERVICE_QUEUE,
   RPC_QUEUE: process.env.RPC_QUEUE,
-  
-  USERS_QUEUE:process.env.USERS_QUEUE,
-  USERS_RPC:process.env.USERS_RPC,
-  
-  PAYMENT_QUEUE:process.env.PAYMENT_QUEUE,
-  PAYMENT_RPC:process.env.PAYMENT_RPC,
+  USERS_QUEUE: process.env.USERS_QUEUE,
+  USERS_RPC: process.env.USERS_RPC,
+  PAYMENT_QUEUE: process.env.PAYMENT_QUEUE,
+  PAYMENT_RPC: process.env.PAYMENT_RPC,
   EVENT_TYPES,
   RPC_TYPES,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,

@@ -1,11 +1,9 @@
 const express = require("express");
 const { Service } = require("../services");
-const { BadRequestError } = require("../utils/errors");
 const authMiddleware = require("../middlewares/auth");
-const { EventService, RPCService } = require("../services/broker");
+const { RPCService } = require("../services/broker");
 
-
-const { EVENT_TYPES,RPC_TYPES,USERS_RPC } = require("../config");
+const { RPC_TYPES, USERS_RPC } = require("../config");
 
 const router = express.Router();
 const service = new Service();
@@ -14,16 +12,12 @@ router.get("/", (req, res) => {
   res.json({ message: "Welcome to the Interview Service" });
 });
 
-  
-router.post("/createinterview",authMiddleware, async (req, res) => {
-  const {jobdescription, interviewtype, difficulty, jobfield} = req.body;
+router.post("/createinterview", authMiddleware, async (req, res) => {
+  const { jobdescription, interviewtype, difficulty, jobfield } = req.body;
 
-  const status="scheduled";
-  
-  const userid=req.userId;
+  const status = "scheduled";
 
- 
-
+  const userid = req.userId;
 
   const userDetails = await RPCService.request(USERS_RPC, {
     type: RPC_TYPES.GET_USER_DETAILS,
@@ -48,7 +42,6 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
   );
   return res.status(200).json(data);
 });
-
 
 router.get("/getinterview", authMiddleware, async (req, res) => {
   const userid = req.userId;
@@ -94,7 +87,6 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
   if (!latestInterview) {
     return res.status(404).json({
       error: "Feedback and rank for the latest interview not yet generated",
-
     });
   }
 
@@ -122,77 +114,6 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
     ranks: { cityrank, countryrank },
   });
 });
-
-// const { EventService, RPCService } = require("../services/broker");
-// router.get("/rpctest",authMiddleware, async (req, res) => {
-//   // const {jobdescription, interviewtype, difficulty, jobfield, status } = req.body;
-
-//   const userid=req.userId;
-//   console.log(userid);
-//   const response = await RPCService.request('USERS_RPC', {
-//     type: 'GET_USER_DETAILS',
-//     data:{
-//       userId:userid
-//     },
-//   });
-//   console.log(response);
-
-//   return res.json(response);
-// });
-
-// router.get("/eventtest",authMiddleware, async (req, res) => {
-//   const userid=req.userId;
-//   console.log(userid);
-//   await EventService.publish('INTERVIEWS_SCHEDULE_SERVICE', {
-//     type: 'INTERVIEW_DETAILS',
-//     data:{
-//       interviewId: "tikmh7r04y2e",
-//     transcript: [
-//       {
-//         type: "AI",
-//         content: "Welcome to the interview. Let's begin with your introduction.",
-//         timestamp: "2024-10-30T10:15:00Z"
-//       },
-//       {
-//         type: "human",
-//         content: "Thank you. My name is Alex, and I am a recent graduate in computer science.",
-//         timestamp: "2024-10-30T10:15:10Z"
-//       },
-//       {
-//         type: "AI",
-//         content: "Can you tell me about a challenging project you've worked on?",
-//         timestamp: "2024-10-30T10:16:00Z"
-//       },
-//       {
-//         type: "human",
-//         content: "Sure. I recently worked on a machine learning model to classify images.",
-//         timestamp: "2024-10-30T10:16:15Z"
-//       }
-//     ],
-//     feedback: {
-//       feedbacks: [
-//         {
-//           question: "Can you introduce yourself?",
-//           answer: "My name is Alex, and I am a recent graduate in computer science.",
-//           feedback: "Clear and concise introduction.",
-//           score: 8
-//         },
-//         {
-//           question: "Describe a challenging project.",
-//           answer: "I recently worked on a machine learning model to classify images.",
-//           feedback: "Good explanation of the project, but could include more technical details.",
-//           score: 7
-//         }
-//       ],
-//       final_feedback: "Overall good performance. Demonstrated understanding and communication skills.",
-//       final_score: 7.5
-//     }
-//   }
-//   });
-
-//   return res.json("done");
-
-// });
 
 router.get("/health", (req, res) => {
   res.json({ status: "UP" });
