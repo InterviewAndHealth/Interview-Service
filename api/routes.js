@@ -8,7 +8,7 @@ const router = express.Router();
 const service = new Service();
 
 router.get("/", (req, res) => {
-  res.json({ message: "Welcome to the users API" });
+  res.json({ message: "Welcome to the Interview Service" });
 });
 
 router.post("/createinterview", authMiddleware, async (req, res) => {
@@ -84,11 +84,9 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
 
   // If no completed interview exists, return an error
   if (!latestInterview) {
-    return res
-      .status(404)
-      .json({
-        error: "Feedback and rank for the latest interview not yet generated",
-      });
+    return res.status(404).json({
+      error: "Feedback and rank for the latest interview not yet generated",
+    });
   }
 
   // Get user details from students table using RPC
@@ -186,5 +184,9 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
 //   return res.json("done");
 
 // });
+
+router.get("/health", (req, res) => {
+  res.json({ status: "UP" });
+});
 
 module.exports = router;
