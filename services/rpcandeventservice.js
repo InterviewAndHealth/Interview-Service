@@ -39,10 +39,18 @@ class InterviewService {
 
       const status = 'running';
 
+
       const interview = await this.repository.upadateInterviewStatus(interviewId, status);
 
       
-    }
+    }else if (event.type === 'INTERVIEW_DETAILS') {
+      const { interviewId,transcript,feedback } = event.data;
+
+      const data=await this.repository.addInterviewDetails(interviewId,transcript,feedback);
+
   }
+
+}
+
 }
 module.exports = {InterviewService};
