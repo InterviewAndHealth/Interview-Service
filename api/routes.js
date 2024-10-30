@@ -4,6 +4,9 @@ const { BadRequestError } = require("../utils/errors");
 const authMiddleware = require("../middlewares/auth");
 const { EventService, RPCService } = require("../services/broker");
 
+
+const { EVENT_TYPES,RPC_TYPES,USERS_RPC } = require("../config");
+
 const router = express.Router();
 const service = new Service();
 
@@ -15,8 +18,16 @@ router.post("/createinterview", authMiddleware, async (req, res) => {
   const { jobdescription, interviewtype, difficulty, jobfield } = req.body;
 
   const status = "scheduled";
+  
+router.post("/createinterview",authMiddleware, async (req, res) => {
+  const {jobdescription, interviewtype, difficulty, jobfield} = req.body;
 
-  const userid = req.userId;
+  const status="scheduled";
+  
+  const userid=req.userId;
+
+ 
+
 
   const userDetails = await RPCService.request("USERS_RPC", {
     type: "GET_USER_DETAILS",
@@ -86,6 +97,7 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
   if (!latestInterview) {
     return res.status(404).json({
       error: "Feedback and rank for the latest interview not yet generated",
+
     });
   }
 
