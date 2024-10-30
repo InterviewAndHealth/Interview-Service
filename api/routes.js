@@ -14,10 +14,6 @@ router.get("/", (req, res) => {
   res.json({ message: "Welcome to the Interview Service" });
 });
 
-router.post("/createinterview", authMiddleware, async (req, res) => {
-  const { jobdescription, interviewtype, difficulty, jobfield } = req.body;
-
-  const status = "scheduled";
   
 router.post("/createinterview",authMiddleware, async (req, res) => {
   const {jobdescription, interviewtype, difficulty, jobfield} = req.body;
@@ -52,6 +48,7 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
   );
   return res.status(200).json(data);
 });
+
 
 router.get("/getinterview", authMiddleware, async (req, res) => {
   const userid = req.userId;
