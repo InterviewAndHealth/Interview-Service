@@ -4,6 +4,8 @@ const { BadRequestError } = require("../utils/errors");
 const authMiddleware = require('../middlewares/auth');
 const { EventService, RPCService } = require("../services/broker");
 
+const { EVENT_TYPES,RPC_TYPES,USERS_RPC } = require("../config");
+
 
 const router = express.Router();
 const service = new Service();
@@ -21,8 +23,8 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
   
   const userid=req.userId;
 
-  const userDetails = await RPCService.request('USERS_RPC', {
-        type: 'GET_USER_DETAILS',
+  const userDetails = await RPCService.request(USERS_RPC, {
+        type:RPC_TYPES.GET_USER_DETAILS,
         data:{
           userId:userid
         },
@@ -90,8 +92,8 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
     }
 
     // Get user details from students table using RPC
-    const userDetails = await RPCService.request("USERS_RPC", {
-      type: "GET_USER_DETAILS",
+    const userDetails = await RPCService.request(USERS_RPC, {
+      type: RPC_TYPES.GET_USER_DETAILS,
       data: { userId: userid }
     });
 
