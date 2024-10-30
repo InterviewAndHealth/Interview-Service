@@ -20,10 +20,10 @@ module.exports = {
   SERVICE_NAME: process.env.SERVICE_NAME,
   SERVICE_QUEUE: process.env.SERVICE_QUEUE,
   RPC_QUEUE: process.env.RPC_QUEUE,
-  USERS_SERVICE:process.env.USERS_SERVICE,
+  
   USERS_QUEUE:process.env.USERS_QUEUE,
   USERS_RPC:process.env.USERS_RPC,
-  PAYMENT_SERVICE:process.env.PAYMENT_SERVICE,
+  
   PAYMENT_QUEUE:process.env.PAYMENT_QUEUE,
   PAYMENT_RPC:process.env.PAYMENT_RPC,
   EVENT_TYPES,

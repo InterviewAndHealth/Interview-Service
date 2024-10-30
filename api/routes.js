@@ -25,8 +25,8 @@ router.post("/createinterview",authMiddleware, async (req, res) => {
  
 
 
-  const userDetails = await RPCService.request("USERS_RPC", {
-    type: "GET_USER_DETAILS",
+  const userDetails = await RPCService.request(USERS_RPC, {
+    type: RPC_TYPES.GET_USER_DETAILS,
     data: {
       userId: userid,
     },
@@ -99,8 +99,8 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
   }
 
   // Get user details from students table using RPC
-  const userDetails = await RPCService.request("USERS_RPC", {
-    type: "GET_USER_DETAILS",
+  const userDetails = await RPCService.request(USERS_RPC, {
+    type: RPC_TYPES.GET_USER_DETAILS,
     data: { userId: userid },
   });
 
