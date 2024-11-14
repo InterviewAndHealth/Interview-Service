@@ -7,7 +7,7 @@ const { DB } = require("./database");
 const { InterviewService } = require("./services/rpcandeventservice");
 const RPCService = require("./services/broker/rpc");
 const EventService = require("./services/broker/events");
-const { SERVICE_NAME } = require("./config/index");
+const { SERVICE_QUEUE } = require("./config/index");
 
 module.exports = async (app) => {
   await DB.connect();
@@ -20,5 +20,5 @@ module.exports = async (app) => {
   const interviewservice = new InterviewService();
   await RPCService.respond(interviewservice);
 
-  EventService.subscribe(SERVICE_NAME, interviewservice);
+  await EventService.subscribe(SERVICE_QUEUE, interviewservice);
 };
