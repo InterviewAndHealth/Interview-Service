@@ -15,6 +15,8 @@ class InterviewService {
   }
 
   async handleEvent(event) {
+    console.log("Event received", event);
+
     if (event.type === "INTERVIEW_COMPLETED") {
       const { interviewId } = event.data;
 
