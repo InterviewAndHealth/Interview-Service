@@ -1,5 +1,5 @@
 const { Pool } = require("pg");
-const {DATABASE_NAME,DATABASE_URL } = require("../config");
+const { DATABASE_NAME, DATABASE_URL } = require("../config");
 const path = require("path");
 const fs = require("fs");
 
@@ -26,8 +26,6 @@ class DB {
         // ssl: NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
         ssl: false,
       });
-
-      
 
       this.#pool.on("error", (err) => {
         console.error("Unexpected error on idle client", err);
