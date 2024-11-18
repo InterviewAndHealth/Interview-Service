@@ -109,8 +109,8 @@ router.get("/getlatestinterview", authMiddleware, async (req, res) => {
   // Calculate ranks based on the final score
   const finalScore = latestInterview.feedback.final_score;
   const { cityrank, countryrank } = await service.calculateRank(
-    userDetails.city,
-    userDetails.country,
+    userDetails.data.city,
+    userDetails.data.country,
     finalScore
   );
 
