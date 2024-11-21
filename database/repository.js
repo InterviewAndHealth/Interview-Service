@@ -28,6 +28,7 @@ class Repository {
     difficulty,
     jobfield,
     status,
+    feedback_status,
     city,
     country
   ) {
@@ -35,8 +36,8 @@ class Repository {
 
     const result = await DB.query({
       text: `
-            INSERT INTO interviews (userid, interviewid, jobdescription, interviewtype, difficulty, jobfield, status,city,country) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+            INSERT INTO interviews (userid, interviewid, jobdescription, interviewtype, difficulty, jobfield, status, feedback_status,city,country) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
             RETURNING *`,
       values: [
         userid,
@@ -46,6 +47,7 @@ class Repository {
         difficulty,
         jobfield,
         status,
+        feedback_status,
         city,
         country,
       ],
@@ -74,6 +76,19 @@ class Repository {
             WHERE interviewid = $2
             RETURNING *`,
       values: [status, interviewId],
+    });
+
+    return result.rows[0];
+  }
+
+  async upadateInterviewFeedbackStatus(interviewId, feedback_status) {
+    const result = await DB.query({
+      text: `
+            UPDATE interviews
+            SET feedback_status = $1
+            WHERE interviewid = $2
+            RETURNING *`,
+      values: [feedback_status, interviewId],
     });
 
     return result.rows[0];

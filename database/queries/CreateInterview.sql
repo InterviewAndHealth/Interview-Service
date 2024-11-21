@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS interviews (
     difficulty difficulty_level,               
     jobfield VARCHAR(255),                     
     status interview_status,
+    feedback_status VARCHAR(255),
     city VARCHAR(255),
     country VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

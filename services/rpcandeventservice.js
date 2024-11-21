@@ -24,8 +24,10 @@ class InterviewService {
       // Update the interview status in the database
 
       const status = "completed";
-
+      const feedback_status="pending";
       await this.repository.upadateInterviewStatus(interviewId, status);
+      await this.repository.upadateInterviewFeedbackStatus(interviewId, feedback_status);
+
     } else if (event.type === "INTERVIEW_STARTED") {
       const { interviewId } = event.data;
 

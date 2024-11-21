@@ -18,6 +18,7 @@ class Service {
     difficulty,
     jobfield,
     status,
+    feedback_status,
     city,
     country
   ) {
@@ -38,6 +39,7 @@ class Service {
       difficulty,
       jobfield,
       status,
+      feedback_status,
       city,
       country
     );

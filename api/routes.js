@@ -16,6 +16,7 @@ router.post("/createinterview", authMiddleware, async (req, res) => {
   const { jobdescription, interviewtype, difficulty, jobfield } = req.body;
 
   const status = "scheduled";
+  const feedback_status="NA";
 
   const userid = req.userId;
 
@@ -37,6 +38,7 @@ router.post("/createinterview", authMiddleware, async (req, res) => {
     difficulty,
     jobfield,
     status,
+    feedback_status,
     city,
     country
   );
