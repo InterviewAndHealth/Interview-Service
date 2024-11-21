@@ -19,6 +19,5 @@ module.exports = async (app) => {
 
   const interviewservice = new InterviewService();
   await RPCService.respond(interviewservice);
-
   await EventService.subscribe(SERVICE_QUEUE, interviewservice);
 };

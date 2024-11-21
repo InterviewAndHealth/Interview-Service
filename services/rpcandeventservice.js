@@ -7,6 +7,7 @@ class InterviewService {
   }
 
   async respondRPC(request) {
+    console.log("Request received", request);
     if (request.type === "GET_INTERVIEW_DETAILS") {
       const { interviewId } = request.data;
       const interview = await this.repository.getInterview(interviewId);
@@ -24,10 +25,7 @@ class InterviewService {
 
       const status = "completed";
 
-      const interview = await this.repository.upadateInterviewStatus(
-        interviewId,
-        status
-      );
+      await this.repository.upadateInterviewStatus(interviewId, status);
     } else if (event.type === "INTERVIEW_STARTED") {
       const { interviewId } = event.data;
 
@@ -35,14 +33,11 @@ class InterviewService {
 
       const status = "running";
 
-      const interview = await this.repository.upadateInterviewStatus(
-        interviewId,
-        status
-      );
+      await this.repository.upadateInterviewStatus(interviewId, status);
     } else if (event.type === "INTERVIEW_DETAILS") {
       const { interviewId, transcript, feedback } = event.data;
 
-      const data = await this.repository.addInterviewDetails(
+      await this.repository.addInterviewDetails(
         interviewId,
         transcript,
         feedback
