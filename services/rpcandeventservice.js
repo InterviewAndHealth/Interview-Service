@@ -1,5 +1,4 @@
 const { Repository } = require("../database");
-// A mock function to simulate user lookup
 
 class InterviewService {
   constructor() {
@@ -24,10 +23,12 @@ class InterviewService {
       // Update the interview status in the database
 
       const status = "completed";
-      const feedback_status="pending";
+      const feedback_status = "pending";
       await this.repository.upadateInterviewStatus(interviewId, status);
-      await this.repository.upadateInterviewFeedbackStatus(interviewId, feedback_status);
-
+      await this.repository.upadateInterviewFeedbackStatus(
+        interviewId,
+        feedback_status
+      );
     } else if (event.type === "INTERVIEW_STARTED") {
       const { interviewId } = event.data;
 
