@@ -20,31 +20,25 @@ class InterviewService {
     if (event.type === "INTERVIEW_COMPLETED") {
       const { interviewId } = event.data;
 
-      // Update the interview status in the database
-
-      const status = "completed";
-      const feedback_status = "pending";
-      await this.repository.upadateInterviewStatus(interviewId, status);
-      await this.repository.upadateInterviewFeedbackStatus(
+      await this.repository.updateInterviewStatusAndFeedbackStatus(
         interviewId,
-        feedback_status
+        "completed",
+        "pending"
       );
     } else if (event.type === "INTERVIEW_STARTED") {
       const { interviewId } = event.data;
 
-      // Update the interview status in the database
-
-      const status = "running";
-
-      await this.repository.upadateInterviewStatus(interviewId, status);
+      await this.repository.upadateInterviewStatus(interviewId, "running");
     } else if (event.type === "INTERVIEW_DETAILS") {
       const { interviewId, transcript, feedback } = event.data;
 
-      await this.repository.addInterviewDetails(
-        interviewId,
-        transcript,
-        feedback
-      );
+      await Promise.all([
+        this.repository.addInterviewDetails(interviewId, transcript, feedback),
+        this.repository.upadateInterviewFeedbackStatus(
+          interviewId,
+          "completed"
+        ),
+      ]);
     }
   }
 }

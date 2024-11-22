@@ -94,6 +94,23 @@ class Repository {
     return result.rows[0];
   }
 
+  async updateInterviewStatusAndFeedbackStatus(
+    interviewId,
+    status,
+    feedback_status
+  ) {
+    const result = await DB.query({
+      text: `
+            UPDATE interviews
+            SET status = $1, feedback_status = $2
+            WHERE interviewid = $3
+            RETURNING *`,
+      values: [status, feedback_status, interviewId],
+    });
+
+    return result.rows[0];
+  }
+
   async addInterviewDetails(interviewId, transcript, feedback) {
     const serializedTranscript = JSON.stringify(transcript);
     const serializedFeedback = JSON.stringify(feedback);
