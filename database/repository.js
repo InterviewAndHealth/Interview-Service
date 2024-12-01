@@ -72,7 +72,7 @@ class Repository {
     const result = await DB.query({
       text: `
             UPDATE interviews
-            SET status = $1
+            SET status = $1, updated_at = CURRENT_TIMESTAMP
             WHERE interviewid = $2
             RETURNING *`,
       values: [status, interviewId],
@@ -85,7 +85,7 @@ class Repository {
     const result = await DB.query({
       text: `
             UPDATE interviews
-            SET feedback_status = $1
+            SET feedback_status = $1, updated_at = CURRENT_TIMESTAMP
             WHERE interviewid = $2
             RETURNING *`,
       values: [feedback_status, interviewId],
@@ -102,7 +102,7 @@ class Repository {
     const result = await DB.query({
       text: `
             UPDATE interviews
-            SET status = $1, feedback_status = $2
+            SET status = $1, feedback_status = $2, updated_at = CURRENT_TIMESTAMP
             WHERE interviewid = $3
             RETURNING *`,
       values: [status, feedback_status, interviewId],
