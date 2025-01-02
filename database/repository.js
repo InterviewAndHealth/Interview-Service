@@ -112,6 +112,15 @@ class Repository {
   }
 
   async addInterviewDetails(interviewId, transcript, feedback) {
+    const existingDetails = await DB.query({
+      text: "SELECT * FROM interviewdetails WHERE interviewid = $1",
+      values: [interviewId],
+    });
+
+    if (existingDetails.rows.length > 0) {
+      return existingDetails.rows[0];
+    }
+
     const serializedTranscript = JSON.stringify(transcript);
     const serializedFeedback = JSON.stringify(feedback);
     const result = await DB.query({
