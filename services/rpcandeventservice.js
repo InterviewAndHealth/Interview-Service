@@ -12,6 +12,8 @@ class InterviewService {
       const interview = await this.repository.getInterview(interviewId);
       return { data: interview };
     }
+
+    return { error: "Invalid request" };
   }
 
   async handleEvent(event) {
