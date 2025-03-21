@@ -136,7 +136,7 @@ class Repository {
     const result = await DB.query({
       text: `SELECT * FROM interviews 
                LEFT JOIN interviewdetails ON interviews.interviewid = interviewdetails.interviewid 
-               WHERE userid = $1 AND status = 'completed'`,
+               WHERE userid = $1 AND status = 'completed' ORDER BY interviews.created_at DESC`,
 
       values: [userid],
     });
